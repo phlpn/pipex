@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:39 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/08 14:43:22 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/08 14:48:33 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@
 
 // error codes and related information
 # include <errno.h>
+
+// Utils
+char	**ft_split(char const *s, char c);
 
 // LABS
 // void	dup2_demo(void);
