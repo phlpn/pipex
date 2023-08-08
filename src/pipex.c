@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:45 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/08 12:39:26 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/08 14:41:04 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,6 @@ int	main(void)
 	access_demo();
 	execve_demo();
 	fork_demo();
+	pipe_demo();
+	unlink_demo();
 }
