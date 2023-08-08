@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:39 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/08 12:25:07 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/08 12:33:29 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <stdlib.h>
 
 // LABS
 void	dup2_demo(void);
 void	access_demo(void);
+void	execve_demo(void);
+void	fork_demo(void);
 
 #endif

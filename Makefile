@@ -38,7 +38,8 @@ clean:
 # Phony target to remove the executables and object files
 fclean: clean
 	rm -f $(NAME)
-	rm example.txt
+	find . -type f ! \( -name "*.c" -o -name "*.h" -o -name "Makefile" \) -exec rm {} +
+
 
 # Phony target to perform a full re-build
 re: fclean all
