@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:07:50 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/15 16:35:27 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/16 14:07:49 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@
 
 // Process Ids
 
-#include "sys/wait.h" // getpid(), getppid()
+#include "sys/wait.h" // getpid(), getppid(), WIFEXITED
 
 // int	main(void)
 // {
@@ -258,26 +258,77 @@
 // }
 
 // Getting exit status code
-int	main(void)
-{
-	int	pid = fork();
-	if (pid == ERROR)
-		return (1);
-	if (pid == CHILD)
-	{
-		int err = execlp("pingr", "ping", "-c", "3", "google.com", NULL);
-		if (err == -1)
-			return (printf("Could not find program to execute!\n"), 0);
-	}
-	else
-	{
-		int	wstatus;
-		wait(&wstatus);
-		if (WIFEXITED(wstatus))
-		{
-			int statusCode = WEXITSTATUS(wstatus);
-		}
-		printf("\nSuccess!\n\n"); 
-	}
-	return (0);
-}
+// int	main(void)
+// {
+// 	int	pid = fork();
+// 	if (pid == ERROR)
+// 		return (1);
+// 	if (pid == CHILD)
+// 	{
+// 		int err = execlp("ping", "ping", "-c", "1", "google.com", NULL);
+// 		if (err == ERROR)
+// 			return (printf("Could not find program to execute!\n"), 1);	
+// 	}
+// 	else
+// 	{
+// 		int	wstatus;
+// 		wait(&wstatus);
+// 		if (WIFEXITED(wstatus)) // Check specific bit(s) from wstatus to know if Child exited / ended correctly
+// 		{
+// 			int statusCode = WEXITSTATUS(wstatus); // Check another specific bit(s) from wstatus to get the return value from Child
+// 			if (statusCode == 0)
+// 				printf("\nSuccess!\n");
+// 			else
+// 				printf("\nError %i.\n", statusCode);
+// 		}
+// 	}
+// 	return (0);
+// }
+
+// Executing another program [Less relatable as Pipex must use execve() and not execl() !] using the env
+// int	main(int ac, char **av, char **envp)
+// {
+// 	int i = -1;
+// 	while (envp[++i])
+// 		printf("%s\n", envp[i]);
+// 	return (0);
+// }
+
+#include <fcntl.h>
+
+// Redirecting Standad Output
+// int	main(void)
+// {
+// 	int	pid = fork();
+// 	if (pid == ERROR)
+// 		return (1);
+// 	if (pid == CHILD)
+// 	{
+// 		int	file = open("pingResults.txt", O_WRONLY | O_CREAT, 0777);
+// 		if (file == ERROR)
+// 			return (1);
+// 		printf("The original fd to pingResults: %i\n", file);
+// 		dup2(file, STDOUT_FILENO);
+// 		close(file);
+		
+// 		int err = execlp("ping", "ping", "-c", "1", "google.com", NULL);
+// 		if (err == ERROR)
+// 			return (printf("Could not find program to execute!\n"), 1);	
+// 	}
+// 	else
+// 	{
+// 		int	wstatus;
+// 		wait(&wstatus);
+// 		if (WIFEXITED(wstatus)) // Check specific bit(s) from wstatus to know if Child exited / ended correctly
+// 		{
+// 			int statusCode = WEXITSTATUS(wstatus); // Check another specific bit(s) from wstatus to get the return value from Child
+// 			if (statusCode == 0)
+// 				printf("\nSuccess!\n");
+// 			else
+// 				printf("\nError %i.\n", statusCode);
+// 		}
+// 	}
+// 	return (0);
+// }
+
+// Executing Programs vs Executing Scripts
