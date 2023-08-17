@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:07:50 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/16 14:07:49 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/17 16:34:37 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,4 +331,83 @@
 // 	return (0);
 // }
 
-// Executing Programs vs Executing Scripts
+#include <signal.h> // kill(), SIGKILL / SIGSTOP / SIGCONT macros
+
+// Introduction to signals
+// int	main(void)
+// {
+// 	int	pid = fork();
+// 	if (pid == -1)
+// 		return (1);
+	
+// 	if (pid == CHILD)
+// 	{
+// 		while (1)
+// 		{
+// 			printf("Some text goes here\n");
+// 			usleep(50000);
+// 		}
+// 	}
+// 	else
+// 	{
+// 		int	t;
+// 		kill(pid, SIGSTOP);
+// 		do
+// 		{
+// 			printf("Time in seconds for execution: ");
+// 			scanf("%d", &t);
+
+// 			if (t > 0)
+// 				kill(pid, SIGCONT);
+// 				sleep(t);
+// 				kill(pid, SIGSTOP);
+// 		} while (t > 0);
+		
+// 		kill(pid, SIGKILL);
+// 		wait(NULL);
+// 	}
+// 	return (0);
+// }
+
+// Background and foreground process 
+// ...
+
+// Handling signals
+// ...
+
+// Communicating between processes using signals
+int	x = 0;
+
+void	handle_sigusr1(int sig)
+{
+	if (x == 0)
+		printf("\nHint: Remember that mulitplicaion is repetitive addition!\n");
+}
+
+int	main(void)
+{
+	int	pid = fork();
+	if (pid == ERROR)
+		return (1);
+	
+	if (pid == CHILD)
+	{
+		sleep(5);
+		kill(getppid(), SIGUSR1);
+	}
+	else
+	{
+		struct sigaction sa = { 0 };
+		sa.sa_flags = SA_RESTART;
+		sa.sa_handler = &handle_sigusr1;
+		sigaction(SIGUSR1, &sa, NULL);
+		
+		printf("What is the result of 3 x 5: ");
+		scanf("%d", &x);
+		if (x == 15)
+			printf("Right!\n");
+		else
+			printf("Wrong!\n");
+		wait(NULL);
+	}
+}
