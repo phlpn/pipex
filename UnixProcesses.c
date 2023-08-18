@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:07:50 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/17 16:34:37 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/18 15:40:15 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -376,38 +376,131 @@
 // ...
 
 // Communicating between processes using signals
-int	x = 0;
+// int	x = 0;
 
-void	handle_sigusr1(int sig)
-{
-	if (x == 0)
-		printf("\nHint: Remember that mulitplicaion is repetitive addition!\n");
-}
+// void	handle_sigusr1(int sig)
+// {
+// 	if (x == 0)
+// 		printf("\nHint: Remember that mulitplicaion is repetitive addition!\n");
+// }
 
-int	main(void)
-{
-	int	pid = fork();
-	if (pid == ERROR)
-		return (1);
+// int	main(void)
+// {
+// 	int	pid = fork();
+// 	if (pid == ERROR)
+// 		return (1);
 	
-	if (pid == CHILD)
-	{
-		sleep(5);
-		kill(getppid(), SIGUSR1);
-	}
-	else
-	{
-		struct sigaction sa = { 0 };
-		sa.sa_flags = SA_RESTART;
-		sa.sa_handler = &handle_sigusr1;
-		sigaction(SIGUSR1, &sa, NULL);
+// 	if (pid == CHILD)
+// 	{
+// 		sleep(5);
+// 		kill(getppid(), SIGUSR1);
+// 	}
+// 	else
+// 	{
+// 		struct sigaction sa = { 0 };
+// 		sa.sa_flags = SA_RESTART;
+// 		sa.sa_handler = &handle_sigusr1;
+// 		sigaction(SIGUSR1, &sa, NULL);
 		
-		printf("What is the result of 3 x 5: ");
-		scanf("%d", &x);
-		if (x == 15)
-			printf("Right!\n");
-		else
-			printf("Wrong!\n");
-		wait(NULL);
-	}
-}
+// 		printf("What is the result of 3 x 5: ");
+// 		scanf("%d", &x);
+// 		if (x == 15)
+// 			printf("Right!\n");
+// 		else
+// 			printf("Wrong!\n");
+// 		wait(NULL);
+// 	}
+// }
+
+// How to send an array through a pipe
+// int	main(void)
+// {
+// 	int	fd[2];
+// 	if (pipe(fd) == ERROR)
+// 		return (1);
+// 	int	pid = fork();
+// 	if (pid == CHILD)
+// 	{
+// 		close(fd[0]);
+// 		int	n;
+// 		int	arr[10];
+// 		srand(time(NULL));
+// 		n = rand() % 10 + 1;
+// 		printf("Generated: ");
+// 		int i = -1;
+// 		while (++i < n)
+// 		{
+// 			arr[i] = rand() % 11;
+// 			printf("%i ", arr[i]);
+// 		}
+// 		printf("\n");
+// 		if (write(fd[1], &n, sizeof(int)) == ERROR)
+// 			return (1);
+// 		printf("Sent size of array: %i\n", n);
+// 		if (write(fd[1], arr, sizeof(int) * n) == ERROR)
+// 			return (1);
+// 		printf("Sent array\n");
+// 		close(fd[1]);
+// 	}
+// 	else
+// 	{
+// 		close(fd[1]);
+// 		int	arr[10];
+// 		int	n, i = 0, sum = 0;
+// 		if (read(fd[0], &n, sizeof(int)) == ERROR)
+// 			return (1);
+// 		printf("Received size of array: %i\n", n);
+// 		if (read(fd[0], arr, sizeof(int) * n) == ERROR)
+// 			return (1);
+// 		printf("Received array\n");
+// 		close(fd[0]);
+// 		while (i < n)
+// 			sum += arr[i++];
+// 		printf("Sum of the array is %i\n", sum);
+// 		wait(NULL);
+// 	}
+// 	return (0);
+// }
+
+#include <string.h> // Used for strlen() function
+
+// How to send a string through a pipe
+// int	main(void)
+// {
+// 	int	fd[2];
+// 	if (pipe(fd) == ERROR)
+// 		return (1);
+// 	int	pid = fork();
+// 	if (pid == ERROR)
+// 		return (1);
+// 	if (pid == CHILD)
+// 	{
+// 		close(fd[0]);
+// 		char	str[200];
+// 		printf("Input string: ");
+// 		fgets(str, 200, stdin);
+// 		str[strlen(str) - 1] = '\0';
+// 		int	len = strlen(str) + 1;
+// 		if (write(fd[1], &len, sizeof(len)) == ERROR)
+// 			return (1);
+// 		if (write(fd[1], str, sizeof(char) * len))
+// 			return (1);
+// 		close(fd[1]);
+// 	}
+// 	else
+// 	{
+// 		close(fd[1]);
+// 		char str[200];
+// 		int	len;
+// 		if (read(fd[0], &len, sizeof(len)) == ERROR)
+// 			return (1);
+// 		if (read(fd[0], str, sizeof(char) * len) == ERROR)
+// 			return (1);
+// 		printf("Received string: \"%s\"\n", str);
+// 		close(fd[0]);
+// 		wait(NULL);
+// 	}
+// }
+
+// Simulating the pipe '|' operator
+// ...
