@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:07:50 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/18 15:40:15 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/21 14:55:39 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -503,4 +503,203 @@
 // }
 
 // Simulating the pipe '|' operator
-// ...
+// int	main(void)
+// {
+// 	int	fd[2];
+// 	if (pipe(fd) == ERROR)
+// 		return (1);
+// 	int pid1 = fork();
+// 	if (pid1 == ERROR)
+// 		return (1);
+// 	if (pid1 == CHILD)
+// 	{
+// 		dup2(fd[1], STDOUT_FILENO);
+// 		close(fd[0]);
+// 		close(fd[1]);
+// 		execlp("ping", "ping", "-c", "3", "google.com", NULL);
+// 	}
+// 	int	pid2 = fork();
+// 	if (pid2 == ERROR)
+// 		return (1);
+// 	if (pid2 == CHILD)
+// 	{
+// 		dup2(fd[0], STDIN_FILENO);
+// 		close(fd[0]);
+// 		close(fd[1]);
+// 		execlp("grep", "grep", "round-trip", NULL);
+// 	}
+// 	close(fd[0]);
+// 	close(fd[1]);
+// 	waitpid(pid1, NULL, 0);
+// 	waitpid(pid2, NULL, 0);
+// 	return (0);
+// }
+
+// Working with multiple pipes
+// int	main(void)
+// {
+// 	int fd[3][2];
+// 	int	i = -1;
+// 	while (++i < 3)
+// 		if (pipe(fd[i]) < 0)
+// 			return (1);
+// 	int pid1 = fork();
+// 	if (pid1 < 0)
+// 		return (1);
+// 	if (pid1 == CHILD)
+// 	{
+// 		close(fd[0][1]);
+// 		close(fd[1][0]);
+// 		close(fd[2][0]);
+// 		close(fd[2][1]);
+// 		int	x;
+// 		if (read(fd[0][0], &x, sizeof(x)) < 0)
+// 			return (1);
+// 		x += 5;
+// 		if (write(fd[1][1], &x, sizeof(x)) < 0)
+// 			return (1);
+// 		close(fd[0][0]);
+// 		close(fd[1][1]);
+// 		return (0);
+// 	}
+// 	int pid2 = fork();
+// 	if (pid2 < 0)
+// 		return (1);
+// 	if (pid2 == CHILD)
+// 	{
+// 		close(fd[0][0]);
+// 		close(fd[0][1]);
+// 		close(fd[1][1]);
+// 		close(fd[2][0]);
+// 		int	x;
+// 		if (read(fd[1][0], &x, sizeof(x)) < 0)
+// 			return (1);
+// 		x += 5;
+// 		if (write(fd[2][1], &x, sizeof(x)) < 0)
+// 			return (1);
+// 		close(fd[1][0]);
+// 		close(fd[2][1]);
+// 		return (0);
+// 	}
+// 	close(fd[0][0]);
+// 	close(fd[1][0]);
+// 	close(fd[1][1]);
+// 	close(fd[2][1]);
+// 	int x;
+// 	printf("Enter starting value: ");
+// 	scanf("%i", &x);
+// 	if (write(fd[0][1], &x, sizeof(x)) < 0)
+// 		return (1);
+// 	if (read(fd[2][0], &x, sizeof(x)) < 0)
+// 		return (1);
+// 	printf("Result is %d\n", x);
+// 	close(fd[0][1]);
+// 	close(fd[2][0]);
+// 	waitpid(pid1, NULL, 0);
+// 	waitpid(pid2, NULL, 0);
+// 	return (0);
+// }
+
+// What is waitpid() ?
+// int	main(void)
+// {
+// 	int	pid1 = fork();
+// 	if (pid1 < 0)
+// 		return (1);
+// 	if (pid1 == CHILD)
+// 	{
+// 		sleep(4);
+// 		printf("Finish execution of process 1 (%i)\n", getpid());
+// 		return (0);
+// 	}
+// 	int	pid2 = fork();
+// 	if (pid2 < 0)
+// 		return (2);
+// 	if (pid2 == CHILD)
+// 	{
+// 		sleep(1);
+// 		printf("Finish execution of process 2 (%i)\n", getpid());
+// 		return (0);
+// 	}
+// 	int pid1_res = waitpid(pid1, NULL, 0);
+// 	printf("Waited for %i\n", pid1_res);
+// 	int pid2_res = waitpid(pid2, NULL, 0);
+// 	printf("Waited for %i\n", pid2_res);
+// }
+
+// Calling fork() multiple times
+#define PROCESS_NUM 10
+
+int main(void) {
+    int pids[PROCESS_NUM];
+    int pipes[PROCESS_NUM + 1][2];
+    int i;
+    for (i = 0; i < PROCESS_NUM + 1; i++) {
+        if (pipe(pipes[i]) == -1) {
+            printf("Error with creating pipe\n");
+            return 1;
+        }
+    }
+    for (i = 0; i < PROCESS_NUM; i++) {
+        pids[i] = fork();
+        if (pids[i] == -1) {
+            printf("Error with creating process\n");
+            return 2;
+        }
+        if (pids[i] == 0) {
+            // Child process
+            int j;
+            for (j = 0; j < PROCESS_NUM + 1; j++) {
+                if (i != j) {
+                    close(pipes[j][0]);
+                }
+                if (i + 1 != j) {
+                    close(pipes[j][1]);
+                }
+            }
+            int x;
+            if (read(pipes[i][0], &x, sizeof(int)) == -1) {
+                printf("Error at reading\n");
+                return 3;
+            }
+            printf("(%d) Got %d\n", i, x);
+            x++;
+            if (write(pipes[i + 1][1], &x, sizeof(int)) == -1) {
+                printf("Error at writing\n");
+                return 4;
+            }
+            printf("(%d) Sent %d\n", i, x);
+            close(pipes[i][0]);
+            close(pipes[i + 1][1]);
+            return 0;
+        }
+    }
+    // Main process
+    int j;
+    for (j = 0; j < PROCESS_NUM + 1; j++) {
+        if (j != PROCESS_NUM) {
+            close(pipes[j][0]);
+        }
+        if (j != 0) {
+            close(pipes[j][1]);
+        }
+    }
+    int y = 5;
+    printf("Main process sent %d\n", y);
+    if (write(pipes[0][1], &y, sizeof(int)) == -1) {
+        printf("Error at writing\n");
+        return 4;
+    }
+    if (read(pipes[PROCESS_NUM][0], &y, sizeof(int)) == -1) {
+        printf("Error at reading\n");
+        return 3;
+    }
+    printf("The final result is %d\n", y);
+    close(pipes[0][1]);
+    close(pipes[PROCESS_NUM][0]);
+
+    for (i = 0; i < PROCESS_NUM; i++) {
+        wait(NULL);
+    }
+    return 0;
+}
