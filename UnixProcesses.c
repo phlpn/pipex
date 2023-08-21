@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 10:07:50 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/21 14:55:39 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/21 14:57:39 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -700,6 +700,26 @@ int main(void) {
 
     for (i = 0; i < PROCESS_NUM; i++) {
         wait(NULL);
+    }
+    return 0;
+}
+
+// What does fork() actually return
+int main(int argc, char* argv[]) {
+    int id = fork();
+    // Inside parent process - child process id - it's going to be different than getpid()
+    // Inside child process - 0 - it's going to be different than getpid()
+    if (id == 0) {
+        sleep(1);
+    }
+    printf("Returned by fork: %d, Current ID: %d, parent ID: %d\n", id, getpid(), getppid());
+    
+    int res = wait(NULL);
+    
+    if (res == -1) {
+        printf("No children to wait for\n");
+    } else {
+        printf("%d finished execution\n", res);
     }
     return 0;
 }
