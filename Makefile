@@ -1,56 +1,55 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/08/09 16:48:36 by alexphil          #+#    #+#              #
-#    Updated: 2023/08/09 16:48:38 by alexphil         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 # Final executable name
-NAME = pipex
+NAME 		= pipex
 
 # Compiler and compiler flags
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iinclude
-DFLAGS = -g -DDEBUG
+CC 			= cc
+CFLAGS 		= -Wall -Wextra -Werror -Iinclude -Ilibft
+DFLAGS 		= -g -DDEBUG -fsanitize=address
 
 # Directories
-SRC_DIR = src
-BUILD_DIR = build
+SRC_DIR 	= src
+BUILD_DIR 	= build
+LIBFT_DIR 	= libft
 
 # Define the source files
-SRC_FILES =	pipex.c labs.c
+SRC_FILES 	= pipex.c
 
 # Define the path of the sources files
-SRCS = $(addprefix $(SRC_DIR)/,$(SRC_FILES)) 
+SRCS 		= $(addprefix $(SRC_DIR)/,$(SRC_FILES)) 
 
 # Derive object file names from .c files in the build directory
-OBJS = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
+OBJS 		= $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
 
 # Rule to build the executables
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(LIBFT_DIR)/libft.a
 	$(CC) $(CFLAGS) -o $@ $^
 
-# Rule to build object files from .c files
+# Rule to build the object files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Phony target to build the main executable
-all: $(NAME)
+# Rule to build the libft library
+$(LIBFT_DIR)/libft.a:
+	make -C $(LIBFT_DIR)
+
+# Phony target to build the libft library
+libft:
+	make -C $(LIBFT_DIR)
+
+# Phony target to build the main executable and the libft library
+all: libft $(NAME)
 
 # Phony target to clean generated files
 clean:
 	rm -rf $(BUILD_DIR)
+	make -C $(LIBFT_DIR) clean
 
-# Phony target to remove the executables and object files
+# Phony target to remove the executables, object files, and libft library
 fclean: clean
 	rm -f $(NAME)
-	rm *.txt
+	make -C $(LIBFT_DIR) fclean
+	rm -f *.txt
 
 # Phony target to perform a full re-build
 re: fclean all
@@ -60,4 +59,4 @@ debug: CFLAGS += $(DEBUG_CFLAGS)
 debug: all
 
 .SILENT:
-.PHONY: all bonus clean fclean re
+.PHONY: all libft clean fclean re debug

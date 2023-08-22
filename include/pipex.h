@@ -6,12 +6,14 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:39 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/08 14:48:33 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/22 16:25:20 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
+
+# include "libft.h"
 
 // perror
 # include <stdio.h>
@@ -39,16 +41,5 @@
 
 // error codes and related information
 # include <errno.h>
-
-// Utils
-char	**ft_split(char const *s, char c);
-
-// LABS
-// void	dup2_demo(void);
-// void	access_demo(void);
-// void	execve_demo(void);
-// void	fork_demo(void);
-// void	pipe_demo(void);
-// void	unlink_demo(void);
 
 #endif

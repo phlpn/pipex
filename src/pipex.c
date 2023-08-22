@@ -6,13 +6,17 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:45 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/08 17:25:50 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/22 16:26:38 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(void)
+int	main(int ac, char **av, char **envp)
 {
+	(void)ac;
+	(void)av;
+	(void)envp;
+	printf("Yas!\n");
 	return (0);
 }
