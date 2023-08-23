@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 10:36:22 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/23 17:30:00 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/23 23:27:00 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	open_file(char *file, t_flow flow)
 
 	if (flow == INPUT)
 		fd = open(file, O_RDONLY, 0744);
-	else
+	else if (flow == OUTPUT)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0744);
 	if (fd == ERROR)
 		exit_mgmt("Error: open failed / file not found\n", EXIT_FAILURE);
@@ -34,21 +34,12 @@ int	open_file(char *file, t_flow flow)
 
 char	*getenvp(char **envp)
 {
-	int		i;
-	int		j;
-	char	*trgt;
+	int	i;
 
-	i = 0;
-	trgt = "PATH=";
-	while (envp[i])
-	{
-		j = 0;
-		while (trgt[j] && trgt[j] == envp[i][j])
-			j++;
-		if (trgt[j] == '\0' && envp[i][j] == '/')
-			return (envp[i] + j);
-		i++;
-	}
+	i = -1;
+	while (envp[++i])
+		if (ft_strncmp(envp[i], "PATH=", 5) == TRUE)
+			return (envp[i] + 5);
 	return (NULL);
 }
 
@@ -67,22 +58,18 @@ void	ft_free_split(char **split)
 
 char	*getcmdp(char *cmd, char **envp)
 {
-	char	*paths;
 	char	**tokens;
 	char	*cmd_path;
 	int		i;
 
-	paths = getenvp(envp);
-	tokens = ft_split(paths, ':');
+	tokens = ft_split(getenvp(envp), ':');
 	if (!tokens)
 		exit_mgmt("Error: malloc failed\n", EXIT_FAILURE);
 	i = 0;
+	cmd = ft_strjoin("/", cmd);
 	while (tokens[i])
 	{
-		cmd_path = ft_strjoin(tokens[i], "/");
-		if (cmd_path == NULL)
-			exit_mgmt("Error: malloc failed\n", EXIT_FAILURE);
-		cmd_path = ft_strjoin(cmd_path, cmd);
+		cmd_path = ft_strjoin(tokens[i], cmd);
 		if (cmd_path == NULL)
 			exit_mgmt("Error: malloc failed\n", EXIT_FAILURE);
 		if (access(cmd_path, F_OK) == TRUE)
