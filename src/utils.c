@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 10:36:22 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/23 14:18:23 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:43:04 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	exit_mgmt(char *msg, int exit_code)
 {
-	write(2, msg, strlen(msg));
+	write(2, msg, ft_strlen(msg));
 	exit(exit_code);
 }
 

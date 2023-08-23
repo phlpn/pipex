@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:39 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/23 12:21:05 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:42:34 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,24 @@
 
 # include "libft.h"
 
-// perror
-# include <stdio.h>
-
 // malloc, free and exit
 # include <stdlib.h>
 
-// open, close, read, write, access, unlink, dup, dup2, execve, fork and pipe
+// open, close, read, write, access, dup2, execve, fork and pipe
 # include <unistd.h>
 
-// strerror
-# include <string.h>
-
-// pid_t
-# include <sys/types.h>
-
-// waitpid and wait
+// wait
 # include <sys/wait.h>
-
-// structures and constants related to file status and permission bits
-# include <sys/stat.h>
 
 // constants related to file control and manipulation
 # include <fcntl.h>
 
-// error codes and related information
-# include <errno.h>
-
-# define CHILD 0
+// macros for increased readability
 # define TRUE 0
+# define CHILD 0
 # define ERROR -1
 
+// simple enum used with open_file() to specify the flow of data
 typedef enum e_flow
 {
 	IN,
