@@ -12,7 +12,7 @@ BUILD_DIR 	= build
 LIBFT_DIR 	= libft
 
 # Define the source files
-SRC_FILES 	= pipex.c
+SRC_FILES 	= pipex.c utils.c
 
 # Define the path of the sources files
 SRCS 		= $(addprefix $(SRC_DIR)/,$(SRC_FILES)) 

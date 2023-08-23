@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:39 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/22 16:25:20 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/23 11:33:49 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,16 @@
 
 // error codes and related information
 # include <errno.h>
+
+typedef enum e_flow
+{
+	IN,
+	OUT
+}	t_flow;
+
+void	exit_mgmt(char *msg, int exit_code);
+int		open_file(char *file, t_flow flow);
+char	*getcmdp(char *cmd, char **envp);
+void	ft_free_split(char **split);
 
 #endif
