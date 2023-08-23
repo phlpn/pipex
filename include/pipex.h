@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:39 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/23 14:42:34 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:02:32 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,17 @@
 # define CHILD 0
 # define ERROR -1
 
-// simple enum used with open_file() to specify the flow of data
+// simple enum used with open_file() to specify the flow of data in the pipe
 typedef enum e_flow
 {
-	IN,
-	OUT
+	INPUT,
+	OUTPUT
 }	t_flow;
 
 void	exit_mgmt(char *msg, int exit_code);
 int		open_file(char *file, t_flow flow);
 void	ft_free_split(char **split);
+char	*getenvp(char **envp);
 char	*getcmdp(char *cmd, char **envp);
 
 #endif
