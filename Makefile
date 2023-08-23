@@ -59,8 +59,8 @@ re: fclean all
 debug: CFLAGS += $(DEBUG_CFLAGS)
 debug: all
 
-# Disable echoing of commands
-.SILENT:
-
 # Phony targets for make
 .PHONY: libft all clean fclean re debug
+
+# Silent mode MacOs + Linux
+MAKEFLAGS += -s
