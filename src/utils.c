@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 10:36:22 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/23 11:34:16 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:18:23 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	open_file(char *file, t_flow flow)
 		fd = open(file, O_RDONLY, 0777);
 	else
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (fd == -1)
+	if (fd == ERROR)
 		exit_mgmt("Error: file not found\n", 1);
 	return (fd);
 }
@@ -71,18 +71,20 @@ char	*getcmdp(char *cmd, char **envp)
 
 	path = getenvp("PATH", envp);
 	path_list = ft_split(path, ':');
+	if (!path_list)
+		exit_mgmt("Error: malloc failed\n", 1);
 	i = -1;
 	while (path_list[++i])
 	{
 		cmd_path = ft_strjoin(path_list[i], "/");
+		if (cmd_path == NULL)
+			exit_mgmt("Error: malloc failed\n", 1);
 		cmd_path = ft_strjoin(cmd_path, cmd);
-		if (access(cmd_path, F_OK) == 0)
-		{
-			ft_free_split(path_list);
-			return (cmd_path);
-		}
+		if (cmd_path == NULL)
+			exit_mgmt("Error: malloc failed\n", 1);
+		if (access(cmd_path, F_OK) == TRUE)
+			return (ft_free_split(path_list), cmd_path);
 		free(cmd_path);
 	}
-	ft_free_split(path_list);
-	return (NULL);
+	return (ft_free_split(path_list), NULL);
 }
