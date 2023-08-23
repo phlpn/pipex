@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:39 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/23 17:24:15 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:36:42 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,12 @@
 // simple enum used with open_file to specify flow
 typedef enum e_flow
 {
-	INPUT,
-	OUTPUT
+	READ,
+	WRITE
 }	t_flow;
 
 void	exit_mgmt(char *msg, int exit_code);
-int		open_file(char *file, t_flow flow);
-void	ft_free_split(char **split);
-char	*getenvp(char **envp);
 char	*getcmdp(char *cmd, char **envp);
+void	ft_free_split(char **split);
 
 #endif

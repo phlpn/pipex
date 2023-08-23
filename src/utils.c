@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 10:36:22 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/23 23:27:00 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:37:30 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,6 @@ void	exit_mgmt(char *msg, int exit_code)
 	if (msg)
 		write(2, msg, ft_strlen(msg));
 	exit(exit_code);
-}
-
-int	open_file(char *file, t_flow flow)
-{
-	int	fd;
-
-	if (flow == INPUT)
-		fd = open(file, O_RDONLY, 0744);
-	else if (flow == OUTPUT)
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0744);
-	if (fd == ERROR)
-		exit_mgmt("Error: open failed / file not found\n", EXIT_FAILURE);
-	return (fd);
-}
-
-char	*getenvp(char **envp)
-{
-	int	i;
-
-	i = -1;
-	while (envp[++i])
-		if (ft_strncmp(envp[i], "PATH=", 5) == TRUE)
-			return (envp[i] + 5);
-	return (NULL);
 }
 
 void	ft_free_split(char **split)
@@ -56,6 +32,17 @@ void	ft_free_split(char **split)
 	free(split);
 }
 
+char	*getenvp(char **envp)
+{
+	int	i;
+
+	i = -1;
+	while (envp[++i])
+		if (ft_strncmp(envp[i], "PATH=", 5) == TRUE)
+			return (envp[i] + 5);
+	return (NULL);
+}
+
 char	*getcmdp(char *cmd, char **envp)
 {
 	char	**tokens;
@@ -67,15 +54,17 @@ char	*getcmdp(char *cmd, char **envp)
 		exit_mgmt("Error: malloc failed\n", EXIT_FAILURE);
 	i = 0;
 	cmd = ft_strjoin("/", cmd);
+	if (cmd == NULL)
+		exit_mgmt("Error: malloc failed\n", EXIT_FAILURE);
 	while (tokens[i])
 	{
 		cmd_path = ft_strjoin(tokens[i], cmd);
 		if (cmd_path == NULL)
 			exit_mgmt("Error: malloc failed\n", EXIT_FAILURE);
 		if (access(cmd_path, F_OK) == TRUE)
-			return (ft_free_split(tokens), cmd_path);
+			return (ft_free_split(tokens), free(cmd), cmd_path);
 		free(cmd_path);
 		i++;
 	}
-	return (ft_free_split(tokens), NULL);
+	return (ft_free_split(tokens), free(cmd_path), free(cmd), NULL);
 }
