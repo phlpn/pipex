@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 10:36:22 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/23 16:58:15 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:30:00 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,28 @@ int	open_file(char *file, t_flow flow)
 	int	fd;
 
 	if (flow == INPUT)
-		fd = open(file, O_RDONLY, 0777);
+		fd = open(file, O_RDONLY, 0744);
 	else
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0744);
 	if (fd == ERROR)
-		exit_mgmt("Error: file not found\n", EXIT_FAILURE);
+		exit_mgmt("Error: open failed / file not found\n", EXIT_FAILURE);
 	return (fd);
 }
 
 char	*getenvp(char **envp)
 {
-	char	*trg;
 	int		i;
 	int		j;
+	char	*trgt;
 
-	trg = "PATH=";
 	i = 0;
+	trgt = "PATH=";
 	while (envp[i])
 	{
 		j = 0;
-		while (trg[j] && trg[j] == envp[i][j])
+		while (trgt[j] && trgt[j] == envp[i][j])
 			j++;
-		if (trg[j] == '\0' && envp[i][j] == '/')
+		if (trgt[j] == '\0' && envp[i][j] == '/')
 			return (envp[i] + j);
 		i++;
 	}
