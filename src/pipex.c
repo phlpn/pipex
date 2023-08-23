@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:45 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/24 00:36:32 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:38:59 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,5 @@ int	main(int ac, char **av, char **envp)
 		child_process(fd, ft_split(av[2], ' '), envp, av[1]);
 	else
 		parent_process(fd, ft_split(av[3], ' '), envp, av[4]);
-	exit_mgmt(NULL, EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }
