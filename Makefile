@@ -6,31 +6,31 @@
 #    By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/24 13:17:37 by alexphil          #+#    #+#              #
-#    Updated: 2023/08/24 14:17:23 by alexphil         ###   ########.fr        #
+#    Updated: 2023/08/24 14:33:25 by alexphil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Name of the executable
-NAME 		= pipex
+NAME 		= 	pipex
 
 # Compiler and compiler flags
-CC 			= cc
-CFLAGS 		= -Wall -Wextra -Werror -Iinclude
-DFLAGS 		= -g -DDEBUG -fsanitize=address
+CC			= 	cc
+CFLAGS 		= 	-Wall -Wextra -Werror -Iinclude
+DFLAGS 		= 	-g -DDEBUG -fsanitize=address
 
 # Directories for source files, object files, and the libft library
-SRC_DIR 	= src
-BUILD_DIR 	= build
-LIBFT_DIR 	= libft
+SRC_DIR 	= 	src
+BUILD_DIR 	= 	build
+LIBFT_DIR 	= 	libft
 
 # Define the source files
-SRC_FILES 	= pipex.c utils.c
+SRC_FILES 	= 	pipex.c utils.c
 
 # Define the path of the sources files 
-SRCS 		= $(addprefix $(SRC_DIR)/,$(SRC_FILES)) 
+SRCS 		= 	$(addprefix $(SRC_DIR)/,$(SRC_FILES)) 
 
 # Derive object file names from .c files in the build directory
-OBJS 		= $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
+OBJS 		= 	$(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
 
 # Rule to build the executable from the objects and the libft library
 $(NAME): $(OBJS) $(LIBFT_DIR)/libft.a
@@ -71,8 +71,8 @@ re: fclean all
 debug: CFLAGS += $(DEBUG_CFLAGS)
 debug: all
 
-# Phony targets for make
-.PHONY: libft all clean fclean re debug
-
 # Silent mode MacOs + Linux
 MAKEFLAGS += -s
+
+# Phony targets for make
+.PHONY: libft all clean fclean re debug
