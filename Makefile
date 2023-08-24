@@ -6,7 +6,7 @@
 #    By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/24 13:17:37 by alexphil          #+#    #+#              #
-#    Updated: 2023/08/24 16:04:27 by alexphil         ###   ########.fr        #
+#    Updated: 2023/08/24 16:15:35 by alexphil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,20 +37,20 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Rule to build the libft library
-$(LIBFT_DIR)/libft.a:
-	make -C $(LIBFT_DIR)
-
 # Rule to build the executable from the objects and the libft library
 $(NAME): $(OBJS) $(LIBFT_DIR)/libft.a
 	$(CC) $(CFLAGS) -o $@ $^
 
-# Phony target to build the libft library
-libft:
+# Rule to build the libft library
+$(LIBFT_DIR)/libft.a:
 	make -C $(LIBFT_DIR)
 
 # Phony target to build the libft library and the executable
 all: libft $(NAME)
+
+# Phony target to build the libft library
+libft:
+	make -C $(LIBFT_DIR)
 
 # Phony target to clean the object files
 clean:
@@ -79,4 +79,4 @@ leaks: debug
 MAKEFLAGS += --silent
 
 # Phony targets for make
-.PHONY: libft all clean fclean re debug leaks
+.PHONY: all libft clean fclean re debug leaks
