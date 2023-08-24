@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:45 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/24 14:20:26 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/24 20:59:24 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ int	open_file(char *file, t_flow flow)
 	return (fd);
 }
 
-void	close_fd_execmd(int *fd, char **cmd, char **envp)
+void	close_fd_execmd(int openfd, int *fd, char **cmd, char **envp)
 {
+	if (close(openfd) == ERROR)
+		exit_mgmt("Error: close failed\n", EXIT_FAILURE);
 	if (close(fd[0]) == ERROR)
 		exit_mgmt("Error: close failed\n", EXIT_FAILURE);
 	if (close(fd[1]) == ERROR)
@@ -44,7 +46,7 @@ void	child_process(int *fd, char **cmd, char **envp, char *file)
 		exit_mgmt("Error: dup2 failed\n", EXIT_FAILURE);
 	if (dup2(fd[1], STDOUT_FILENO) == ERROR)
 		exit_mgmt("Error: dup2 failed\n", EXIT_FAILURE);
-	close_fd_execmd(fd, cmd, envp);
+	close_fd_execmd(fd_in, fd, cmd, envp);
 }
 
 void	parent_process(int *fd, char **cmd, char **envp, char *file)
@@ -57,7 +59,7 @@ void	parent_process(int *fd, char **cmd, char **envp, char *file)
 		exit_mgmt("Error: dup2 failed\n", EXIT_FAILURE);
 	if (dup2(fd_out, STDOUT_FILENO) == ERROR)
 		exit_mgmt("Error: dup2 failed\n", EXIT_FAILURE);
-	close_fd_execmd(fd, cmd, envp);
+	close_fd_execmd(fd_out, fd, cmd, envp);
 }
 
 int	main(int ac, char **av, char **envp)
