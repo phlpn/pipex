@@ -6,7 +6,7 @@
 #    By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/24 13:17:37 by alexphil          #+#    #+#              #
-#    Updated: 2023/08/24 14:33:25 by alexphil         ###   ########.fr        #
+#    Updated: 2023/08/24 16:04:27 by alexphil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ NAME 		= 	pipex
 
 # Compiler and compiler flags
 CC			= 	cc
-CFLAGS 		= 	-Wall -Wextra -Werror -Iinclude
-DFLAGS 		= 	-g -DDEBUG -fsanitize=address
+CFLAGS 		= 	-Wall -Wextra -Werror -g -Iinclude
+DFLAGS      =   -fsanitize=address -g
 
 # Directories for source files, object files, and the libft library
 SRC_DIR 	= 	src
@@ -27,14 +27,10 @@ LIBFT_DIR 	= 	libft
 SRC_FILES 	= 	pipex.c utils.c
 
 # Define the path of the sources files 
-SRCS 		= 	$(addprefix $(SRC_DIR)/,$(SRC_FILES)) 
+SRC 		= 	$(addprefix $(SRC_DIR)/,$(SRC_FILES)) 
 
 # Derive object file names from .c files in the build directory
-OBJS 		= 	$(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
-
-# Rule to build the executable from the objects and the libft library
-$(NAME): $(OBJS) $(LIBFT_DIR)/libft.a
-	$(CC) $(CFLAGS) -o $@ $^
+OBJS 		= 	$(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC))
 
 # Rule to build the objects from the sources 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
@@ -44,6 +40,10 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 # Rule to build the libft library
 $(LIBFT_DIR)/libft.a:
 	make -C $(LIBFT_DIR)
+
+# Rule to build the executable from the objects and the libft library
+$(NAME): $(OBJS) $(LIBFT_DIR)/libft.a
+	$(CC) $(CFLAGS) -o $@ $^
 
 # Phony target to build the libft library
 libft:
@@ -67,12 +67,16 @@ fclean: clean
 # Phony target to perform a full re-build
 re: fclean all
 
-# Phony target to build the executable with debug flags
+# Rule to build with debug flags
 debug: CFLAGS += $(DEBUG_CFLAGS)
-debug: all
+debug: re
 
-# Silent mode MacOs + Linux
-MAKEFLAGS += -s
+# Phony target to run the executable with valgrind
+leaks: debug
+	valgrind --leak-check=full ./$(NAME) infile.txt "ls -l" "wc -l" outfile.txt
+
+# --silent flag disable echoing of commands on MacOS and Linux
+MAKEFLAGS += --silent
 
 # Phony targets for make
-.PHONY: libft all clean fclean re debug
+.PHONY: libft all clean fclean re debug leaks
