@@ -3,7 +3,7 @@ NAME 		= pipex
 
 # Compiler and compiler flags
 CC 			= cc
-CFLAGS 		= -Wall -Wextra -Werror -Iinclude -Ilibft
+CFLAGS 		= -Wall -Wextra -Werror -Iinclude -Ilibft/includes
 DFLAGS 		= -g -DDEBUG -fsanitize=address
 
 # Directories for source files, object files, and the libft library
