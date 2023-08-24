@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:45 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/24 00:38:59 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:20:33 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	open_file(char *file, t_flow flow)
 
 	if (flow == READ)
 		fd = open(file, O_RDONLY, 0744);
-	else if (flow == WRITE)
+	else
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0744);
 	if (fd == ERROR)
 		exit_mgmt("Error: open failed / file not found\n", EXIT_FAILURE);

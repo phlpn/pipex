@@ -1,9 +1,21 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/08/24 13:17:37 by alexphil          #+#    #+#              #
+#    Updated: 2023/08/24 13:27:32 by alexphil         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 # Name of the executable
 NAME 		= pipex
 
 # Compiler and compiler flags
 CC 			= cc
-CFLAGS 		= -Wall -Wextra -Werror -Iinclude -Ilibft/includes
+CFLAGS 		= -Wall -Wextra -Werror -Iinclude
 DFLAGS 		= -g -DDEBUG -fsanitize=address
 
 # Directories for source files, object files, and the libft library
