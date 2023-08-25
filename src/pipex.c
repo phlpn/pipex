@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:45 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/24 21:04:51 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:14:44 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	open_file(char *file, t_flow flow)
 	int	fd;
 
 	if (flow == READ)
-		fd = open(file, O_RDONLY, 0744);
+		fd = open(file, O_RDONLY, 0644);
 	else
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0744);
 	if (fd == ERROR)

@@ -6,7 +6,7 @@
 #    By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/24 13:17:37 by alexphil          #+#    #+#              #
-#    Updated: 2023/08/24 16:15:35 by alexphil         ###   ########.fr        #
+#    Updated: 2023/08/25 13:20:16 by alexphil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,10 +70,6 @@ re: fclean all
 # Rule to build with debug flags
 debug: CFLAGS += $(DEBUG_CFLAGS)
 debug: re
-
-# Phony target to run the executable with valgrind
-leaks: debug
-	valgrind --leak-check=full ./$(NAME) infile.txt "ls -l" "wc -l" outfile.txt
 
 # --silent flag disable echoing of commands on MacOS and Linux
 MAKEFLAGS += --silent

@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:39 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/24 14:16:45 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:16:51 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define CHILD 0
 # define ERROR -1
 
-// enum used with open_file to specify which flag(s) to use
+// enum used with open_file function 
 typedef enum e_flow
 {
 	READ,
