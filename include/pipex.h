@@ -6,14 +6,14 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:39 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/25 13:16:51 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:44:50 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "../libft/includes/libft.h"
+# include "libft.h"
 
 // malloc, free and exit
 # include <stdlib.h>
@@ -32,11 +32,11 @@
 # define CHILD 0
 # define ERROR -1
 
-// enum used with open_file function 
+// enum used when calling the open_file function
 typedef enum e_flow
 {
-	READ,
-	WRITE
+	WRITE,
+	READ
 }	t_flow;
 
 void	exit_mgmt(char *msg, int exit_code);

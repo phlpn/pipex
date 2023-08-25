@@ -6,7 +6,7 @@
 #    By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/24 13:17:37 by alexphil          #+#    #+#              #
-#    Updated: 2023/08/25 13:20:16 by alexphil         ###   ########.fr        #
+#    Updated: 2023/08/25 13:47:13 by alexphil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ NAME 		= 	pipex
 
 # Compiler and compiler flags
 CC			= 	cc
-CFLAGS 		= 	-Wall -Wextra -Werror -g -Iinclude
-DFLAGS      =   -fsanitize=address -g
+CFLAGS 		= 	-Wall -Wextra -Werror -Iinclude -Ilibft/include
+DFLAGS      =   -g -fsanitize=address
 
 # Directories for source files, object files, and the libft library
 SRC_DIR 	= 	src
@@ -45,12 +45,12 @@ $(NAME): $(OBJS) $(LIBFT_DIR)/libft.a
 $(LIBFT_DIR)/libft.a:
 	make -C $(LIBFT_DIR)
 
-# Phony target to build the libft library and the executable
-all: libft $(NAME)
-
 # Phony target to build the libft library
 libft:
 	make -C $(LIBFT_DIR)
+
+# Phony target to build the libft library and the executable
+all: libft $(NAME)
 
 # Phony target to clean the object files
 clean:
@@ -61,8 +61,8 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 	make -C $(LIBFT_DIR) fclean
-	rm -f *.txt
 	rm -rf *.dSYM
+	rm -f *.txt
 
 # Phony target to perform a full re-build
 re: fclean all
@@ -71,7 +71,7 @@ re: fclean all
 debug: CFLAGS += $(DEBUG_CFLAGS)
 debug: re
 
-# --silent flag disable echoing of commands on MacOS and Linux
+# --silent flag disables echoing of commands on both MacOS and Linux
 MAKEFLAGS += --silent
 
 # Phony targets for make

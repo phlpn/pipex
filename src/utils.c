@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 10:36:22 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/24 00:37:30 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:40:31 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,16 @@ char	*getcmdp(char *cmd, char **envp)
 
 	tokens = ft_split(getenvp(envp), ':');
 	if (!tokens)
-		exit_mgmt("Error: malloc failed\n", EXIT_FAILURE);
+		exit_mgmt("Error: split failed\n", EXIT_FAILURE);
 	i = 0;
 	cmd = ft_strjoin("/", cmd);
 	if (cmd == NULL)
-		exit_mgmt("Error: malloc failed\n", EXIT_FAILURE);
+		exit_mgmt("Error: strjoin failed\n", EXIT_FAILURE);
 	while (tokens[i])
 	{
 		cmd_path = ft_strjoin(tokens[i], cmd);
 		if (cmd_path == NULL)
-			exit_mgmt("Error: malloc failed\n", EXIT_FAILURE);
+			exit_mgmt("Error: strjoin failed\n", EXIT_FAILURE);
 		if (access(cmd_path, F_OK) == TRUE)
 			return (ft_free_split(tokens), free(cmd), cmd_path);
 		free(cmd_path);

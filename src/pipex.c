@@ -6,22 +6,22 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:45 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/25 13:14:44 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:37:51 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	open_file(char *file, t_flow flow)
+int	open_file(char *file, int read)
 {
 	int	fd;
 
-	if (flow == READ)
+	if (read)
 		fd = open(file, O_RDONLY, 0644);
 	else
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0744);
 	if (fd == ERROR)
-		exit_mgmt("Error: open failed or file not found\n", EXIT_FAILURE);
+		exit_mgmt("Error: open failed\n", EXIT_FAILURE);
 	return (fd);
 }
 
@@ -41,6 +41,8 @@ void	child_process(int *fd, char **cmd, char **envp, char *file)
 {
 	int	fd_in;
 
+	if (!cmd)
+		exit_mgmt("Error: split failed\n", EXIT_FAILURE);
 	fd_in = open_file(file, READ);
 	if (dup2(fd_in, STDIN_FILENO) == ERROR)
 		exit_mgmt("Error: dup2 failed\n", EXIT_FAILURE);
@@ -54,6 +56,8 @@ void	parent_process(int *fd, char **cmd, char **envp, char *file)
 	int	fd_out;
 
 	wait(NULL);
+	if (!cmd)
+		exit_mgmt("Error: split failed\n", EXIT_FAILURE);
 	fd_out = open_file(file, WRITE);
 	if (dup2(fd[0], STDIN_FILENO) == ERROR)
 		exit_mgmt("Error: dup2 failed\n", EXIT_FAILURE);
@@ -68,7 +72,7 @@ int	main(int ac, char **av, char **envp)
 	pid_t	pid;
 
 	if (ac != 5)
-		exit_mgmt("./pipex file1 cmd1 cmd2 file2\n", 1);
+		exit_mgmt("./pipex infile cmd1 cmd2 outfile\n", 1);
 	if (pipe(fd) == ERROR)
 		exit_mgmt("Error: pipe failed\n", EXIT_FAILURE);
 	pid = fork();
@@ -78,5 +82,5 @@ int	main(int ac, char **av, char **envp)
 		child_process(fd, ft_split(av[2], ' '), envp, av[1]);
 	else
 		parent_process(fd, ft_split(av[3], ' '), envp, av[4]);
-	exit(EXIT_SUCCESS);
+	exit_mgmt(NULL, EXIT_SUCCESS);
 }
