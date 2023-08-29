@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 10:36:22 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/25 13:40:31 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/29 11:41:07 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ char	*getcmdp(char *cmd, char **envp)
 	tokens = ft_split(getenvp(envp), ':');
 	if (!tokens)
 		exit_mgmt("Error: split failed\n", EXIT_FAILURE);
-	i = 0;
 	cmd = ft_strjoin("/", cmd);
 	if (cmd == NULL)
 		exit_mgmt("Error: strjoin failed\n", EXIT_FAILURE);
-	while (tokens[i])
+	i = -1;
+	while (tokens[++i])
 	{
 		cmd_path = ft_strjoin(tokens[i], cmd);
 		if (cmd_path == NULL)
@@ -64,7 +64,6 @@ char	*getcmdp(char *cmd, char **envp)
 		if (access(cmd_path, F_OK) == TRUE)
 			return (ft_free_split(tokens), free(cmd), cmd_path);
 		free(cmd_path);
-		i++;
 	}
 	return (ft_free_split(tokens), free(cmd_path), free(cmd), NULL);
 }

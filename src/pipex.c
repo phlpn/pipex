@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:45 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/29 11:33:21 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/29 11:44:58 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	open_file(char *file, int read)
 	if (read)
 		fd = open(file, O_RDONLY, 0644);
 	else
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0744);
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == ERROR)
 		exit_mgmt("Error: open failed\n", EXIT_FAILURE);
 	return (fd);
