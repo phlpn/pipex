@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:57:45 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/29 12:25:30 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/29 13:31:12 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,7 @@ int	main(int ac, char **av, char **envp)
 	if (right == ERROR)
 		exit_mgmt("Error: fork failed\n", EXIT_FAILURE);
 	if (right == CHILD)
-	{
 		right_process(fd, ft_split(av[3], ' '), envp, av[4]);
-	}
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(left, NULL, 0);
