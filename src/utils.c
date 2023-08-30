@@ -6,7 +6,7 @@
 /*   By: alexphil <alexphil@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 10:36:22 by alexphil          #+#    #+#             */
-/*   Updated: 2023/08/29 11:41:07 by alexphil         ###   ########.fr       */
+/*   Updated: 2023/08/30 12:38:14 by alexphil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,5 @@ char	*getcmdp(char *cmd, char **envp)
 			return (ft_free_split(tokens), free(cmd), cmd_path);
 		free(cmd_path);
 	}
-	return (ft_free_split(tokens), free(cmd_path), free(cmd), NULL);
+	return (ft_free_split(tokens), free(cmd), NULL);
 }
